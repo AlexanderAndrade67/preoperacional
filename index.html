@@ -10,12 +10,103 @@
 </head>
 <body>
     <div class="container">
-        <!-- Contenido de tu aplicación (se mantiene igual) -->
         <div class="logo-container">
             <img src="https://www.wikomm.com/card/assets/images/users/log1680625540.jpg" alt="Logo Combuses">
         </div>
-        <!-- ... resto del HTML ... -->
+
+        <!-- Sección de inicio -->
+        <div id="startSection">
+            <h1 class="text-center my-4 bold-title">Checklist Preoperacional</h1>
+            <div class="card p-4">
+                <form id="startForm">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label bold-title required-field">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" required readonly>
+                        <div id="nombreError" class="invalid-feedback">Por favor seleccione una cédula válida.</div>
+                    </div>
+                    <div class="mb-3 autocomplete">
+                        <label for="cedula" class="form-label bold-title required-field">Número de cédula</label>
+                        <input type="text" class="form-control" id="cedula" inputmode="numeric" required autocomplete="off">
+                        <div id="cedulaError" class="invalid-feedback">Por favor ingrese una cédula válida (mínimo 6 dígitos).</div>
+                        <div class="form-text">Ingrese su cédula para autocompletar</div>
+                        <div id="cedulaAutocomplete" class="autocomplete-items"></div>
+                    </div>
+                    <div class="device-info" id="deviceInfo"></div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">Iniciar Checklist</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección del cuestionario -->
+        <div id="examSection" style="display: none;">
+            <div class="user-info" id="userInfo"></div>
+            <h2 class="text-center mb-4 bold-title">Checklist de Inspección Preoperacional</h2>
+            
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="timer" id="timer">Tiempo: 00:00</div>
+                <div id="preguntasRestantes" class="text-muted"></div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress">
+                    <div id="progressBar" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div id="quiz" class="question-container"></div>
+            
+            <div id="observationContainer" class="observation-field">
+                <label for="observation" class="form-label bold-title">Describa el problema encontrado:</label>
+                <textarea class="form-control" id="observation" rows="3" required></textarea>
+                <div class="invalid-feedback">Por favor describa el problema encontrado.</div>
+            </div>
+            
+            <button class="btn btn-primary w-100 mt-3 py-2" onclick="checkAnswers()">Registrar Respuesta</button>
+            <div id="alert" class="alert alert-custom mt-3" role="alert"></div>
+            
+            <div id="downloadSection" style="display: none; text-align: center; margin-top: 30px;">
+                <div class="alert alert-success mb-3">
+                    <h4 class="alert-heading">¡Checklist completado exitosamente!</h4>
+                    <p>Revise los resultados y descargue el reporte en PDF.</p>
+                </div>
+                <button class="btn btn-success btn-lg" onclick="generatePDF()">
+                    <i class="bi bi-download"></i> Descargar Reporte
+                </button>
+            </div>
+        </div>
     </div>
+
+    <!-- Modal de instrucciones -->
+    <div class="modal fade" id="instructivoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title bold-title">Instrucciones del Checklist</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="bold-title">Cómo completar el checklist:</h6>
+                    <ol>
+                        <li>Responda <strong>Sí</strong> si el ítem cumple con el requisito</li>
+                        <li>Responda <strong>No</strong> si encuentra alguna anomalía</li>
+                        <li>Cuando responda <strong>No</strong>, debe describir el problema encontrado</li>
+                        <li>Revise cada punto cuidadosamente antes de continuar</li>
+                    </ol>
+                    <div class="alert alert-warning mt-3">
+                        <strong>Importante:</strong> Este checklist requiere acceso a su ubicación para validar el lugar de inspección.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón flotante de instrucciones -->
+    <button type="button" class="btn btn-info position-fixed bottom-0 end-0 m-3 rounded-circle" style="width: 50px; height: 50px;" data-bs-toggle="modal" data-bs-target="#instructivoModal" title="Instrucciones">
+        ?
+    </button>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
