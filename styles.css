@@ -1,0 +1,26 @@
+body {
+    padding: 20px;
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.question-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* ... resto de tus estilos ... */
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #ff0;
+    animation: confetti 2s ease-out infinite;
+    z-index: 1000;
+}
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0); }
+    100% { transform: translateY(100vh) rotate(720deg); }
+}
